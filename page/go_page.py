@@ -26,7 +26,6 @@ class GoPage(BasePage):
         """
         time.sleep(5)   # Необходимо для избежания ошибки JS error
         timeout = self.element_is_visible(self.locators.START_GAME_WAITING).text[3:]
-        print(timeout)
         return self.element_is_visible(self.locators.TEXT_OUTPUT, timeout).text
 
     def set_text(self, text: str):
