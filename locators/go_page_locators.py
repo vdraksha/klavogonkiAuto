@@ -11,3 +11,4 @@ class GoPageLocators:
     TEXT_INTPUT = (By.XPATH, '//*[@id="inputtext"]')
     SPEED_LABEL = (By.XPATH, '//*[@id="speed-label"]')
     ERROR_LABEL = (By.XPATH, '//*[@id="errors-label"]')
+    FIX_TYPO = (By.XPATH, '//*[@id="fixtypo"]')
