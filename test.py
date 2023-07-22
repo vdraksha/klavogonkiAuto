@@ -12,8 +12,7 @@ class TestKeyboardChampion:
         go_page = GoPage(driver)
         go_page.close_manual_button_click()
         go_page.start_game_button_click()
-        t = go_page.get_text()
-        speed, err = go_page.set_text(t)
+        speed, err = go_page.set_text(go_page.get_text())
 
         print(f"Скорость набора текста: {speed:.2f}\nКоличество ошибок: {err}")
         assert speed > 400, 'Скорость ниже требуемой(400 зн/мин)'

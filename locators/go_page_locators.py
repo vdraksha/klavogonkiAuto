@@ -8,7 +8,7 @@ class GoPageLocators:
     START_GAME_TITLE = (By.XPATH, '//*[@id="host_start"]')
     START_GAME_WAITING = (By.XPATH, '//*[@id="waiting_timeout"]')
     TEXT_OUTPUT = (By.XPATH, '//*[@id="typetext"]')
-    TEXT_INTPUT = (By.XPATH, '//*[@id="inputtext"]')
+    TEXT_INTPUT = (By.XPATH, '//*[@class="normal"]')
     SPEED_LABEL = (By.XPATH, '//*[@id="speed-label"]')
     ERROR_LABEL = (By.XPATH, '//*[@id="errors-label"]')
     FIX_TYPO = (By.XPATH, '//*[@id="fixtypo"]')

@@ -25,3 +25,10 @@ class BasePage:
         :param timeout: Время ожидания загрузки элемента. По умолчанию 3 секунды.
         """
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+
+    def element_is_present(self, locator, timeout=3):
+        """Ожидает загрузку в DOM одного элемента на странице, для взаимодействия с ним.
+        :param locator: Указание на место элемента в html-документе(xpath, css-селектор и т.д.)
+        :param timeout: Время ожидания загрузки элемента. По умолчанию 3 секунды.
+        """
+        return WebDriverWait(self.driver, timeout).until((EC.presence_of_element_located(locator)))

@@ -11,4 +11,4 @@
   0. Для запуска нужен Chrome
   1. Клонировать проект любым удобным способом (git clone <ссылка> или UI IDE) ссылка - https://github.com/vdraksha/klavogonkiAuto.git
   2. Установить все необходимы библиотеки, которые прописаны в requirements.txt (pip install -r .\requirements.txt)
-  3. Запустить тест (pytest .\test.py)
+  3. Запустить тест (pytest .\test.py -s), "-s" для print в терминал

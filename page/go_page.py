@@ -1,9 +1,6 @@
-import random
-import time
 from page.base_page import BasePage
 from locators.go_page_locators import GoPageLocators
 from selenium.common import TimeoutException
-from selenium.webdriver.common.keys import Keys
 
 
 class GoPage(BasePage):
@@ -26,32 +23,26 @@ class GoPage(BasePage):
         """Ждет указанное время в timeout для получения текста.
         :return: Возвращает текст.
         """
-        time.sleep(5)   # Необходимо для избежания ошибки JS error
-        timeout = self.element_is_visible(self.locators.START_GAME_WAITING).text[3:]
+        while True:
+            try:
+                timeout = self.element_is_present(self.locators.START_GAME_WAITING).text[3:]
+                int(timeout)
+            except ValueError:
+                pass
+            else:
+                break
         return self.element_is_visible(self.locators.TEXT_OUTPUT, timeout).text
 
-    def set_text(self, text: str):
+    def set_text(self, text):
         """Вводит полученный текст в поле.
         :return: Возвращает среднюю скорость ввода текста и количество ошибок.
         """
         speed_list = []
-        error_count = 0
-        time.sleep(5)  # Необходимо для избежания ошибки ElementNotInteractable
-        for word in text.split():
-            i = 0
-            while True:
-                time.sleep(random.uniform(0.01, 1.9))
-                self.element_is_visible(self.locators.TEXT_INTPUT).send_keys(word[i])
-                speed_list.append(self.get_speed())
-                error_count = self.get_error()
-                if self.check_error():
-                    i += 1
-                    if i >= len(word):
-                        break
-                else:
-                    self.element_is_visible(self.locators.TEXT_INTPUT).send_keys(Keys.BACKSPACE)
-            self.element_is_visible(self.locators.TEXT_INTPUT).send_keys(" ")
-        return sum(speed_list)/len(speed_list), error_count
+        input_field = self.element_is_visible(self.locators.TEXT_INTPUT)
+        for symbol in text:
+            input_field.send_keys(self.check_symbol(symbol))
+            speed_list.append(self.get_speed())
+        return sum(speed_list)/len(speed_list), self.get_error()
 
     def get_speed(self):
         """Получает текущую скорость набора текста.
@@ -59,14 +50,22 @@ class GoPage(BasePage):
         return int(self.element_is_visible(self.locators.SPEED_LABEL).text)
 
     def get_error(self):
-        """Получает текущее количество ошибок.
+        """Получает количество ошибок.
         """
         return int(self.element_is_visible(self.locators.ERROR_LABEL).text)
 
-    def check_error(self):
-        try:
-            self.element_is_visible(self.locators.FIX_TYPO, random.uniform(0.4, 0.8))
-            return False
-        except TimeoutException:
-            return True
+    def check_symbol(self, symbol):
+        """Проверяет символ на соответствие латинице в юникоде.
+        :return: Возвращает похожий по написанию символ в кириллице.
+        """
+        if symbol in ['-', ',', '.', ' ', ':', '!', '»', '«']:
+            return symbol
+        num = ord(symbol)
+        if num == 99:   # c
+            return chr(num + 990)
+        if num == 72:   # H
+            return chr(num + 981)
+        if num < 123:   # 122 = z
+            return chr(num + 975)
+        return chr(num)
 
